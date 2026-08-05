@@ -1,30 +1,48 @@
 # infra-examples
 
-Exemplos reais de infraestrutura, sanitizados e organizados **por ferramenta**, não por projeto.
+Exemplos derivados de infraestrutura real, sanitizados e organizados **por
+ferramenta**, não por projeto.
 
-A ideia é simples: quem chega aqui quer ver como uma coisa específica foi feita de verdade - não navegar pela história de um cliente. Então a pasta é a ferramenta, e dentro dela ficam os exemplos que a usam.
+A pergunta que este repositório responde é: "como esta ferramenta foi usada
+com segurança e quais decisões preciso entender antes de repetir o padrão?"
+Por isso cada pasta reúne código, callgraph Mermaid, porquês e gotchas no
+mesmo lugar, enquanto um mesmo material de origem pode aparecer em mais de uma
+ferramenta.
 
 ## Estrutura
 
 | Pasta | O que demonstra |
 | --- | --- |
-| [`docker-swarm/`](docker-swarm/) | Stacks e manifestos de deploy em Swarm, com o que muda entre teste e produção |
-| [`github-actions/`](github-actions/) | CI e CD: build, publicação de imagem, portões escalonados e release manual com portão |
-| [`nextjs/`](nextjs/) | Build e empacotamento de app Next em contêiner, e o que costuma morder |
-| [`drizzle/`](drizzle/) | Migrações e evolução de schema |
-| [`playwright/`](playwright/) | E2E de verdade: o que vale testar, e por que suíte instável é pior que suíte ausente |
-| [`bash-ops/`](bash-ops/) | Scripts operacionais - chaves de deploy, sandbox de E2E, bootstrap de runner |
+| [`docker-swarm/`](docker-swarm/) | Stack sintética com manifestos imutáveis, preflight read-only, pausa, TTL e rollback |
+| [`github-actions/`](github-actions/) | CI de shell/YAML e publicação isolada de uma imagem com tag e digest imutáveis |
+| [`nextjs/`](nextjs/) | Build standalone, runtime sem root, configuração pública/server-only e cache seguro |
+| [`drizzle/`](drizzle/) | Migração PostgreSQL, snapshot, journal, relações e tipos inferidos |
+| [`playwright/`](playwright/) | E2E por contrato: rotas públicas, fronteira de auth e visual determinístico |
+| [`bash-ops/`](bash-ops/) | Forced-command SSH, sandbox loopback e bootstrap histórico de runner |
 
-## O que cada exemplo carrega
+## Como ler
 
-Não é código solto. Cada exemplo traz:
-
-- **callgraph em Mermaid** - como as peças se chamam;
-- **os porquês** - a decisão de arquitetura e a razão dela, não só o resultado;
-- **os gotchas** - o que morde quem tentar repetir.
+1. Abra o `README.md` da ferramenta.
+2. Leia o `callgraph.md` e siga os nomes até os arquivos de implementação.
+3. Leia os blocos **Porquês** e **Gotchas** antes de adaptar qualquer trecho.
+4. Rode somente os comandos locais documentados. Exemplos que exigem host,
+   registry, banco ou credencial são descritos, não executados pelo CI deste
+   repositório.
 
 ## Origem e limites
 
-São exemplos **derivados** de infraestrutura real em operação, sanitizados: sem credencial, sem host interno, sem dado de cliente. O que está aqui foi escrito para ser lido por quem vai construir algo parecido, não para ser copiado e colado em produção sem entender.
+O conteúdo é derivado de infraestrutura privada e foi reduzido para uma
+superfície pública: sem histórico dos repositórios de origem, sem `.git`, sem
+credencial, token, chave privada, host interno, domínio privado, IP operacional,
+dado de cliente ou estado de runtime.
 
-As pastas se preenchem conforme cada exemplo é consolidado.
+Os valores restantes são placeholders, `localhost` ou domínios reservados para
+documentação. Um exemplo sanitizado explica uma decisão, mas não é uma
+configuração pronta para produção. Substitua contratos externos, revisão de
+segurança, legal copy e observabilidade antes de qualquer uso real.
+
+## Segurança pública
+
+A revisão da superfície pública está documentada em [`SECURITY.md`](SECURITY.md).
+Qualquer dúvida sobre um arquivo ou valor deve interromper a publicação desse
+arquivo, não ser resolvida por suposição.

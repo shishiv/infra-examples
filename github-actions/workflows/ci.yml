@@ -1,0 +1,55 @@
+# CI example for the consolidated infrastructure portfolio.
+# Move this file to the repository root at .github/workflows/ci.yml to activate it.
+
+name: Infrastructure examples CI
+
+on:
+  push:
+    branches:
+      - main
+      - "fm/**"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint and validate shell and YAML
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install validation tools
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck python3-yaml
+
+      - name: Shellcheck scripts
+        run: |
+          ( cd docker-swarm && find staging -name '*.sh' -exec shellcheck -x {} + )
+          find bash-ops -name '*.sh' -exec shellcheck -x {} +
+
+      - name: Validate YAML files
+        run: |
+          for file in $(find docker-swarm github-actions -name '*.yml' -not -path './.git/*'); do
+            python3 -c "import yaml; yaml.safe_load(open('${file}'))" || {
+              echo "YAML validation failed for: ${file}"
+              exit 1
+            }
+          done
+
+  test:
+    name: Run Docker Swarm contract tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run mock-only test suite
+        run: |
+          cd docker-swarm/staging/tests
+          ./run.sh

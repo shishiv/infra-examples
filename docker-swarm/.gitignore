@@ -1,0 +1,5 @@
+.env
+staging/.active-manifest.yml
+staging/.staging-state
+staging/.staging-ttl
+staging/.manifest-history/

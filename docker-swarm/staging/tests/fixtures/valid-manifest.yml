@@ -1,0 +1,11 @@
+version: 1
+sha: "0123456789abcdef0123456789abcdef01234567"
+ttl: 2
+data_mode: synthetic
+images:
+  paused-html: "registry.example.invalid/portfolio/paused-html@sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+  sample-web: "registry.example.invalid/portfolio/sample-web@sha256:abcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+  sample-api: "registry.example.invalid/portfolio/sample-api@sha256:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+  worker-sidecar: "registry.example.invalid/portfolio/worker-sidecar@sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  dashboard-web: "registry.example.invalid/portfolio/dashboard-web@sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  sample-service: "registry.example.invalid/portfolio/sample-service@sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"

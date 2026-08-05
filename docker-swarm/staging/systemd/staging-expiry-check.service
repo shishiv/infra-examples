@@ -1,0 +1,16 @@
+[Unit]
+Description=Portfolio staging TTL expiry check
+Wants=staging-expiry-check.timer
+
+[Service]
+Type=oneshot
+ExecStart=/opt/portfolio-infra/staging/scripts/check-expiry.sh
+User=runner
+Group=runner
+StandardOutput=journal
+StandardError=journal
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/portfolio-infra/staging
+PrivateTmp=true
