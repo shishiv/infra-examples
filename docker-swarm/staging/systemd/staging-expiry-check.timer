@@ -1,0 +1,10 @@
+[Unit]
+Description=Portfolio staging TTL expiry check timer (every 5 minutes)
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+Unit=staging-expiry-check.service
+
+[Install]
+WantedBy=timers.target

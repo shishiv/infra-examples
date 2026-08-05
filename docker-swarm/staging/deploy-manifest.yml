@@ -1,0 +1,39 @@
+# Deploy Manifest - schema reference and generic example
+#
+# This file is an executable schema reference for the infrastructure module.
+# The deployment workflow is retired; local validation and historical lifecycle
+# scripts remain available as a portfolio example.
+#
+# Together with staging/scripts/validate-manifest.sh this file describes the
+# manifest contract. The validator is authoritative for acceptance.
+#
+# Schema:
+#   version:   integer 1
+#   sha:       full 40-character hexadecimal SHA of the manifest producer
+#   ttl:       positive hours until automatic expiry
+#   data_mode: exactly "synthetic"
+#   images:    one immutable container reference for every service below
+#
+# Image references must use the registry host and namespace configured in the
+# module's .env file. Each reference must be an @sha256:<64 hex> digest or a
+# :sha-<40 hex> tag. Mutable tags such as `latest` and `stable` are rejected.
+# The paused-html service must use the configured paused-html repository.
+#
+# Example (documentation-only references):
+#   version: 1
+#   sha: "a1b2c3d4e5f6..."
+#   ttl: 4
+#   data_mode: synthetic
+#   images:
+#     paused-html: "registry.example.invalid/portfolio/paused-html@sha256:0123..."
+#     sample-web: "registry.example.invalid/portfolio/sample-web@sha256:abc123..."
+#     sample-api: "registry.example.invalid/portfolio/sample-api@sha256:def456..."
+#     worker-sidecar: "registry.example.invalid/portfolio/worker-sidecar@sha256:ghi789..."
+#     dashboard-web: "registry.example.invalid/portfolio/dashboard-web@sha256:jkl012..."
+#     sample-service: "registry.example.invalid/portfolio/sample-service@sha256:mno345..."
+
+version: 1
+sha: ""
+ttl: 4
+data_mode: synthetic
+images: {}
