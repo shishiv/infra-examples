@@ -49,7 +49,7 @@ destrutiva.
 
 ## O ciclo operacional atual
 
-![Diagrama acessível do ciclo Firstmate: intenção, mapa, folha Ready, frente, trabalho isolado, supervisão, entrega protegida e captura terminal. Linhas tracejadas terminam em bloqueio para mostrar que uma folha não pronta, um worker bloqueado ou uma entrega sem gate não avançam.](visuals/orchestration.html#current-loop)
+[Abrir o diagrama HTML acessível do ciclo Firstmate e seus caminhos de bloqueio](visuals/orchestration.html#current-loop).
 
 Leia as caixas como contratos, não como uma topologia privada:
 
@@ -120,7 +120,7 @@ trigger distinto e owner não duplicado.
 > afirma que extração automática, reconciliação de Claims ou Briefs derivados
 > já estejam implantados.
 
-![Diagrama acessível da arquitetura planejada de Compounding: Cut marcado, watcher externo, Candidate ou Claim tipado, decisão explícita, proveniência, artefatos canônicos, índice derivado, Brief limitado e frente consumidora.](visuals/orchestration.html#planned-compounding)
+[Abrir a vista HTML acessível da camada Compounding planejada](visuals/orchestration.html#planned-compounding).
 
 A camada planejada move a extração para fora da sessão interativa:
 
