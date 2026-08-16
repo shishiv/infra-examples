@@ -1,5 +1,11 @@
 # Callgraphs Mermaid
 
+Estes Mermaid são mapas de manutenção para os fluxos completos. Para uma vista
+reduzida do problema, estados, validação e recuperação, leia a prova pública
+[Janela de staging limitada e recuperação explícita](../../proofs/bounded-staging-recovery/).
+A prova aponta de volta para este arquivo quando o leitor precisa do fluxo
+completo.
+
 ## Ciclo principal
 
 ```mermaid
