@@ -1,0 +1,157 @@
+{
+  "schema": "infra-examples.firstmate-orchestration.v1",
+  "purpose": "Contrato sintético para separar comportamento atual de arquitetura planejada.",
+  "current_events": [
+    {
+      "type": "intent.accepted",
+      "maturity": "current",
+      "owner": "captain",
+      "permission": "accept-intent-and-evidence",
+      "source": "accepted-intent"
+    },
+    {
+      "type": "wayfinder.ready-leaf.selected",
+      "maturity": "current",
+      "owner": "coordinator",
+      "permission": "route-one-concrete-leaf",
+      "source": "wayfinder-map"
+    },
+    {
+      "type": "front.scope-routed",
+      "maturity": "current",
+      "owner": "persistent-front-or-main-coordinator",
+      "permission": "route-within-scope",
+      "source": "front-charter"
+    },
+    {
+      "type": "worker.isolated",
+      "maturity": "current",
+      "owner": "spawn-guard",
+      "permission": "create-isolated-copy",
+      "source": "worktree-contract"
+    },
+    {
+      "type": "supervision.wake-reconciled",
+      "maturity": "current",
+      "owner": "watcher-and-firstmate",
+      "permission": "surface-and-reconcile",
+      "source": "durable-wake"
+    },
+    {
+      "type": "delivery.guarded",
+      "maturity": "current",
+      "owner": "selected-delivery-path",
+      "permission": "validate-register-preserve",
+      "source": "delivery-contract"
+    },
+    {
+      "type": "learning.capture.terminal",
+      "maturity": "current",
+      "owner": "same-worker",
+      "permission": "capture-only-after-delivery",
+      "outcomes": [
+        "skill",
+        "/knowledge",
+        "project-owner",
+        "task report",
+        "no-new-learning"
+      ],
+      "source": "terminal-capture"
+    }
+  ],
+  "planned_events": [
+    {
+      "type": "compounding.cut-marked",
+      "maturity": "planned",
+      "owner": "local-hook",
+      "permission": "append-bounded-marker",
+      "source": "cut-contract"
+    },
+    {
+      "type": "compounding.watcher-external",
+      "maturity": "planned",
+      "owner": "external-watcher",
+      "permission": "read-marked-cut",
+      "source": "watcher-contract"
+    },
+    {
+      "type": "compounding.claim-candidate",
+      "maturity": "planned",
+      "owner": "extractor",
+      "permission": "propose-typed-candidate",
+      "claim_kinds": [
+        "Decision",
+        "Constraint",
+        "Failure",
+        "Module"
+      ],
+      "source": "claim-contract"
+    },
+    {
+      "type": "compounding.write-decision",
+      "maturity": "planned",
+      "owner": "deterministic-engine",
+      "permission": "apply-explicit-disposition",
+      "dispositions": [
+        "reject",
+        "enrich",
+        "related new",
+        "supersede",
+        "consolidate"
+      ],
+      "source": "write-decision-contract"
+    },
+    {
+      "type": "compounding.provenance-recorded",
+      "maturity": "planned",
+      "owner": "provenance-ledger",
+      "permission": "link-source-cut-decision-version",
+      "source": "provenance-contract"
+    },
+    {
+      "type": "compounding.canonical-artifact",
+      "maturity": "planned",
+      "owner": "canonical-store",
+      "permission": "write-accepted-claim-or-skill",
+      "source": "canonical-artifact-contract"
+    },
+    {
+      "type": "compounding.derived-index-rebuilt",
+      "maturity": "planned",
+      "owner": "index-builder",
+      "permission": "rebuild-from-canonical",
+      "source": "derived-index-contract"
+    },
+    {
+      "type": "compounding.brief-bounded",
+      "maturity": "planned",
+      "owner": "brief-renderer",
+      "permission": "return-bounded-brief",
+      "source": "brief-contract"
+    }
+  ],
+  "authority": {
+    "captain_only": [
+      "strategy",
+      "scope-expansion",
+      "destructive-or-irreversible-action",
+      "security-sensitive-choice",
+      "private-publication",
+      "required-visual-review"
+    ],
+    "worker_cannot": [
+      "set-strategy",
+      "expand-scope",
+      "approve-own-delivery",
+      "publish-private-material"
+    ],
+    "wayfinder_can": [
+      "record-map",
+      "route-ready-leaf"
+    ],
+    "wayfinder_cannot": [
+      "execute-work",
+      "grant-authority"
+    ]
+  }
+}
