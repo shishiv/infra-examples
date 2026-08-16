@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orquestração Firstmate e Compounding</title>
+  <meta name="description" content="Diagrama acessível que separa o ciclo atual de orquestração Firstmate da camada planejada de Compounding.">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f5f5;
+      --paper-2: #ececec;
+      --ink: #2d3142;
+      --muted: #4f5d75;
+      --soft: #7a8399;
+      --rule: rgba(45, 49, 66, 0.16);
+      --accent: #eb6c36;
+      --accent-tint: rgba(235, 108, 54, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--paper); }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Geist", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(100% - 32px, 920px);
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: 8px;
+      padding: 8px 12px;
+      color: var(--paper);
+      background: var(--ink);
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .eyebrow,
+    .legend,
+    .tag,
+    .note {
+      font-family: "Geist Mono", ui-monospace, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    h1,
+    h2 {
+      margin: 0;
+      font-family: "Instrument Serif", Georgia, serif;
+      font-weight: 400;
+    }
+
+    h1 { font-size: clamp(36px, 7vw, 56px); line-height: 1; }
+    h2 { margin-top: 48px; font-size: clamp(28px, 5vw, 40px); }
+
+    .intro,
+    figcaption,
+    .linear-reading,
+    .boundary-note {
+      max-width: 720px;
+      color: var(--muted);
+    }
+
+    .intro {
+      margin: 16px 0 0;
+      font-size: 18px;
+    }
+
+    figure { margin: 24px 0 0; }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: var(--paper);
+    }
+
+    svg:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 6px;
+    }
+
+    figcaption {
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    .linear-reading,
+    .boundary-note {
+      margin: 16px 0 0;
+      padding: 12px 16px;
+      border-left: 3px solid var(--accent);
+      background: rgba(45, 49, 66, 0.04);
+      font-size: 15px;
+    }
+
+    a { color: #2e5aa8; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    @media (max-width: 520px) {
+      main { width: min(100% - 24px, 920px); padding-top: 32px; }
+      .intro { font-size: 16px; }
+      h2 { margin-top: 40px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#diagram-content">Pular para os diagramas</a>
+  <main id="diagram-content">
+    <p class="eyebrow">PROVA OPERACIONAL SANITIZADA</p>
+    <h1>Orquestração sem estado escondido</h1>
+    <p class="intro">O ciclo atual separa decisão, execução, supervisão, entrega e captura. A camada planejada fica em uma vista própria.</p>
+
+    <section id="current-loop" aria-labelledby="current-heading">
+      <h2 id="current-heading">Comportamento atual</h2>
+      <figure>
+        <svg viewBox="0 0 720 788" role="img" tabindex="0" aria-labelledby="firstmate-orchestration-current-title firstmate-orchestration-current-desc">
+          <title id="firstmate-orchestration-current-title">Ciclo atual de orquestração Firstmate</title>
+          <desc id="firstmate-orchestration-current-desc">Fluxo vertical que parte de intenção aceita, seleciona uma folha Ready, roteia para uma frente, executa em cópia isolada, supervisiona, valida a entrega e devolve o aprendizado ao próximo ciclo. Caminhos tracejados terminam quando a folha não está pronta, o worker está bloqueado ou falta um gate.</desc>
+          <defs>
+            <marker id="firstmate-current-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 Z" fill="#4f5d75"/>
+            </marker>
+            <marker id="firstmate-current-stop" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M1 1 L7 7 M7 1 L1 7" fill="none" stroke="#2d3142" stroke-width="1.5"/>
+            </marker>
+          </defs>
+          <style>
+            .current-bg { fill: #f5f5f5; }
+            .current-boundary { fill: rgba(45,49,66,0.02); stroke: #4f5d75; stroke-width: 1; stroke-dasharray: 4 4; }
+            .current-node { fill: #ffffff; stroke: #2d3142; stroke-width: 1.2; }
+            .current-store { fill: rgba(45,49,66,0.05); stroke: #4f5d75; stroke-width: 1; }
+            .current-focal { fill: rgba(235,108,54,0.08); stroke: #eb6c36; stroke-width: 1.2; }
+            .current-connector { fill: none; stroke: #4f5d75; stroke-width: 1.2; marker-end: url(#firstmate-current-arrow); }
+            .current-return { fill: none; stroke: #2e5aa8; stroke-width: 1.2; stroke-dasharray: 6 4; marker-end: url(#firstmate-current-arrow); }
+            .current-failure { fill: none; stroke: #2d3142; stroke-width: 1.2; stroke-dasharray: 6 4; marker-end: url(#firstmate-current-stop); }
+            .current-boundary-label, .current-legend { fill: #4f5d75; font: 600 8px "Geist Mono", ui-monospace, monospace; letter-spacing: 0.08em; }
+            .current-tag-box { fill: #ececec; stroke: #7a8399; stroke-width: 0.8; }
+            .current-tag-box.focal { fill: rgba(235,108,54,0.20); stroke: #eb6c36; }
+            .current-tag { fill: #4f5d75; font: 600 8px "Geist Mono", ui-monospace, monospace; letter-spacing: 0.08em; }
+            .current-tag.focal { fill: #eb6c36; }
+            .current-title { fill: #2d3142; font: 600 16px "Geist", system-ui, sans-serif; }
+            .current-detail { fill: #4f5d75; font: 400 12px "Geist Mono", ui-monospace, monospace; }
+            .current-failure-label { fill: #2d3142; font: 600 8px "Geist Mono", ui-monospace, monospace; letter-spacing: 0.06em; }
+          </style>
+          <rect class="current-bg" width="720" height="788"/>
+          <rect class="current-boundary" x="88" y="20" width="544" height="256" rx="8"/>
+          <text class="current-boundary-label" x="96" y="16">CAPTAIN GATE: INTENÇÃO · ESCOPO · READY</text>
+
+          <!-- Connectors are drawn before node boxes. -->
+          <path class="current-connector" d="M360 92 V116"/>
+          <path class="current-connector" d="M360 172 V196"/>
+          <path class="current-connector" d="M360 252 V276"/>
+          <path class="current-connector" d="M360 332 V356"/>
+          <path class="current-connector" d="M360 412 V436"/>
+          <path class="current-connector" d="M360 492 V516"/>
+          <path class="current-connector" d="M360 572 V596"/>
+          <path class="current-connector" d="M360 652 V676"/>
+          <path class="current-return" d="M104 704 H72 Q64 704 64 696 V164 Q64 156 72 156 H104"/>
+
+          <!-- Failure paths stop before they become work. -->
+          <path class="current-failure" d="M616 224 H676"/>
+          <rect x="620" y="196" width="60" height="16" rx="4" fill="#f5f5f5"/>
+          <text class="current-failure-label" x="650" y="208" text-anchor="middle">SEM READY</text>
+          <path class="current-failure" d="M616 384 H676"/>
+          <rect x="620" y="356" width="72" height="16" rx="4" fill="#f5f5f5"/>
+          <text class="current-failure-label" x="656" y="368" text-anchor="middle">BLOQUEADO</text>
+          <path class="current-failure" d="M616 624 H676"/>
+          <rect x="620" y="596" width="60" height="16" rx="4" fill="#f5f5f5"/>
+          <text class="current-failure-label" x="650" y="608" text-anchor="middle">SEM GATE</text>
+
+          <!-- Current nodes. -->
+          <g>
+            <rect class="current-node" x="104" y="36" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="44" width="72" height="16" rx="4"/>
+            <text class="current-tag" x="156" y="56" text-anchor="middle">CAPTAIN</text>
+            <text class="current-title" x="360" y="70" text-anchor="middle">Intenção + evidência aceita</text>
+            <text class="current-detail" x="360" y="86" text-anchor="middle">estratégia e escopo continuam humanos</text>
+          </g>
+          <g>
+            <rect class="current-store" x="104" y="116" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="124" width="48" height="16" rx="4"/>
+            <text class="current-tag" x="144" y="136" text-anchor="middle">MAP</text>
+            <text class="current-title" x="360" y="150" text-anchor="middle">Mapa Wayfinder</text>
+            <text class="current-detail" x="360" y="166" text-anchor="middle">decide o caminho; não executa</text>
+          </g>
+          <g>
+            <rect class="current-focal" x="104" y="196" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box focal" x="120" y="204" width="64" height="16" rx="4"/>
+            <text class="current-tag focal" x="152" y="216" text-anchor="middle">READY</text>
+            <text class="current-title" x="360" y="230" text-anchor="middle">Uma folha concreta</text>
+            <text class="current-detail" x="360" y="246" text-anchor="middle">fonte, escopo e critério de aceite</text>
+          </g>
+          <g>
+            <rect class="current-node" x="104" y="276" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="284" width="64" height="16" rx="4"/>
+            <text class="current-tag" x="152" y="296" text-anchor="middle">FRONT</text>
+            <text class="current-title" x="360" y="310" text-anchor="middle">Frente persistente ou coordenador principal</text>
+            <text class="current-detail" x="360" y="326" text-anchor="middle">roteia pelo domínio e pela scope</text>
+          </g>
+          <g>
+            <rect class="current-node" x="104" y="356" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="364" width="64" height="16" rx="4"/>
+            <text class="current-tag" x="152" y="376" text-anchor="middle">WORK</text>
+            <text class="current-title" x="360" y="390" text-anchor="middle">Ship ou scout limitado</text>
+            <text class="current-detail" x="360" y="406" text-anchor="middle">brief bounded; mudança ou relatório</text>
+          </g>
+          <g>
+            <rect class="current-store" x="104" y="436" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="444" width="80" height="16" rx="4"/>
+            <text class="current-tag" x="160" y="456" text-anchor="middle">ISOLATED</text>
+            <text class="current-title" x="360" y="470" text-anchor="middle">Cópia de trabalho isolada</text>
+            <text class="current-detail" x="360" y="486" text-anchor="middle">worktree descartável ou home própria</text>
+          </g>
+          <g>
+            <rect class="current-store" x="104" y="516" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="524" width="64" height="16" rx="4"/>
+            <text class="current-tag" x="152" y="536" text-anchor="middle">WATCH</text>
+            <text class="current-title" x="360" y="550" text-anchor="middle">Supervisão durável</text>
+            <text class="current-detail" x="360" y="566" text-anchor="middle">wake esparso + estado atual separado</text>
+          </g>
+          <g>
+            <rect class="current-focal" x="104" y="596" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box focal" x="120" y="604" width="80" height="16" rx="4"/>
+            <text class="current-tag focal" x="160" y="616" text-anchor="middle">DELIVERY</text>
+            <text class="current-title" x="360" y="630" text-anchor="middle">Entrega protegida</text>
+            <text class="current-detail" x="360" y="646" text-anchor="middle">worker não aprova a própria entrega</text>
+          </g>
+          <g>
+            <rect class="current-store" x="104" y="676" width="512" height="56" rx="8"/>
+            <rect class="current-tag-box" x="120" y="684" width="64" height="16" rx="4"/>
+            <text class="current-tag" x="152" y="696" text-anchor="middle">LEARN</text>
+            <text class="current-title" x="360" y="710" text-anchor="middle">Captura terminal</text>
+            <text class="current-detail" x="360" y="726" text-anchor="middle">owner explícito ou no-new-learning</text>
+          </g>
+
+          <line x1="40" y1="752" x2="680" y2="752" stroke="rgba(45,49,66,0.16)" stroke-width="1"/>
+          <text class="current-legend" x="40" y="768">LEGENDA: SÓLIDA = FLUXO ATUAL · TRACEJADA = BLOQUEIO OU RETORNO · X = NÃO AVANÇA</text>
+          <text class="current-legend" x="40" y="780">O RETORNO LATERAL LEVA O LEARNING DE VOLTA À EVIDÊNCIA DO PRÓXIMO CICLO.</text>
+        </svg>
+        <figcaption><strong>Atual.</strong> O worker executa uma folha já roteada, mas o captain continua dono de estratégia, escopo material, ações sensíveis e publicação privada.</figcaption>
+      </figure>
+      <p class="linear-reading"><strong>Leitura linear:</strong> captain aceita intenção → mapa escolhe folha → frente roteia → ship ou scout trabalha isolado → watcher reconcilia → delivery valida ou preserva → mesmo worker captura → learning volta como evidência.</p>
+    </section>
+
+    <section id="planned-compounding" aria-labelledby="planned-heading">
+      <h2 id="planned-heading">Compounding planejado</h2>
+      <figure>
+        <svg viewBox="0 0 720 788" role="img" tabindex="0" aria-labelledby="firstmate-orchestration-planned-title firstmate-orchestration-planned-desc">
+          <title id="firstmate-orchestration-planned-title">Camada planejada de Compounding</title>
+          <desc id="firstmate-orchestration-planned-desc">Fluxo tracejado planejado que começa com um Cut pequeno, passa por watcher externo, Candidate tipado, decisão de escrita e proveniência, grava Claims ou Skills canônicos, reconstrói um índice e entrega uma Brief limitada à frente.</desc>
+          <defs>
+            <marker id="firstmate-planned-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+              <path d="M0 0 L8 4 L0 8 Z" fill="#4f5d75"/>
+            </marker>
+          </defs>
+          <style>
+            .planned-bg { fill: #f5f5f5; }
+            .planned-boundary { fill: rgba(45,49,66,0.02); stroke: #4f5d75; stroke-width: 1; stroke-dasharray: 6 4; }
+            .planned-node { fill: #ffffff; stroke: #4f5d75; stroke-width: 1.2; stroke-dasharray: 6 4; }
+            .planned-store { fill: rgba(45,49,66,0.05); stroke: #4f5d75; stroke-width: 1.2; stroke-dasharray: 6 4; }
+            .planned-connector { fill: none; stroke: #4f5d75; stroke-width: 1.2; stroke-dasharray: 6 4; marker-end: url(#firstmate-planned-arrow); }
+            .planned-boundary-label, .planned-legend { fill: #4f5d75; font: 600 8px "Geist Mono", ui-monospace, monospace; letter-spacing: 0.08em; }
+            .planned-tag-box { fill: #ececec; stroke: #7a8399; stroke-width: 0.8; stroke-dasharray: 4 4; }
+            .planned-tag { fill: #4f5d75; font: 600 8px "Geist Mono", ui-monospace, monospace; letter-spacing: 0.08em; }
+            .planned-title { fill: #2d3142; font: 600 16px "Geist", system-ui, sans-serif; }
+            .planned-detail { fill: #4f5d75; font: 400 12px "Geist Mono", ui-monospace, monospace; }
+          </style>
+          <rect class="planned-bg" width="720" height="788"/>
+          <rect class="planned-boundary" x="88" y="20" width="544" height="716" rx="8"/>
+          <text class="planned-boundary-label" x="96" y="16">PLANEJADO: EXTRAÇÃO FORA DA SESSÃO INTERATIVA</text>
+
+          <!-- Planned connectors are dashed and precede the planned nodes. -->
+          <path class="planned-connector" d="M360 92 V116"/>
+          <path class="planned-connector" d="M360 172 V196"/>
+          <path class="planned-connector" d="M360 252 V276"/>
+          <path class="planned-connector" d="M360 332 V356"/>
+          <path class="planned-connector" d="M360 412 V436"/>
+          <path class="planned-connector" d="M360 492 V516"/>
+          <path class="planned-connector" d="M360 572 V596"/>
+          <path class="planned-connector" d="M360 652 V676"/>
+
+          <g>
+            <rect class="planned-node" x="104" y="36" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="44" width="48" height="16" rx="4"/>
+            <text class="planned-tag" x="144" y="56" text-anchor="middle">CUT</text>
+            <text class="planned-title" x="360" y="70" text-anchor="middle">Cut marcado</text>
+            <text class="planned-detail" x="360" y="86" text-anchor="middle">ponte pequena para fonte; não é o trace inteiro</text>
+          </g>
+          <g>
+            <rect class="planned-node" x="104" y="116" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="124" width="80" height="16" rx="4"/>
+            <text class="planned-tag" x="160" y="136" text-anchor="middle">WATCHER</text>
+            <text class="planned-title" x="360" y="150" text-anchor="middle">Watcher externo</text>
+            <text class="planned-detail" x="360" y="166" text-anchor="middle">lê o Cut fora da sessão interativa</text>
+          </g>
+          <g>
+            <rect class="planned-node" x="104" y="196" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="204" width="80" height="16" rx="4"/>
+            <text class="planned-tag" x="160" y="216" text-anchor="middle">CANDIDATE</text>
+            <text class="planned-title" x="360" y="230" text-anchor="middle">Candidate tipado</text>
+            <text class="planned-detail" x="360" y="246" text-anchor="middle">Claim = o que; Skill = como</text>
+          </g>
+          <g>
+            <rect class="planned-node" x="104" y="276" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="284" width="80" height="16" rx="4"/>
+            <text class="planned-tag" x="160" y="296" text-anchor="middle">DECISION</text>
+            <text class="planned-title" x="360" y="310" text-anchor="middle">Write Decision explícita</text>
+            <text class="planned-detail" x="360" y="326" text-anchor="middle">modelo propõe; engine aplica disposição</text>
+          </g>
+          <g>
+            <rect class="planned-store" x="104" y="356" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="364" width="96" height="16" rx="4"/>
+            <text class="planned-tag" x="168" y="376" text-anchor="middle">PROVENANCE</text>
+            <text class="planned-title" x="360" y="390" text-anchor="middle">Cadeia de proveniência</text>
+            <text class="planned-detail" x="360" y="406" text-anchor="middle">fonte → Cut → extração → decisão → versão</text>
+          </g>
+          <g>
+            <rect class="planned-store" x="104" y="436" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="444" width="96" height="16" rx="4"/>
+            <text class="planned-tag" x="168" y="456" text-anchor="middle">CANONICAL</text>
+            <text class="planned-title" x="360" y="470" text-anchor="middle">Claims e Skills canônicos</text>
+            <text class="planned-detail" x="360" y="486" text-anchor="middle">arquivos humanos são a fonte de verdade</text>
+          </g>
+          <g>
+            <rect class="planned-store" x="104" y="516" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="524" width="64" height="16" rx="4"/>
+            <text class="planned-tag" x="152" y="536" text-anchor="middle">INDEX</text>
+            <text class="planned-title" x="360" y="550" text-anchor="middle">Índice derivado reconstruído</text>
+            <text class="planned-detail" x="360" y="566" text-anchor="middle">busca e grafo são projeções descartáveis</text>
+          </g>
+          <g>
+            <rect class="planned-node" x="104" y="596" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="604" width="64" height="16" rx="4"/>
+            <text class="planned-tag" x="152" y="616" text-anchor="middle">BRIEF</text>
+            <text class="planned-title" x="360" y="630" text-anchor="middle">Brief limitado</text>
+            <text class="planned-detail" x="360" y="646" text-anchor="middle">resposta útil; nunca JSONL bruto</text>
+          </g>
+          <g>
+            <rect class="planned-node" x="104" y="676" width="512" height="56" rx="8"/>
+            <rect class="planned-tag-box" x="120" y="684" width="64" height="16" rx="4"/>
+            <text class="planned-tag" x="152" y="696" text-anchor="middle">FRONT</text>
+            <text class="planned-title" x="360" y="710" text-anchor="middle">Frente consumidora</text>
+            <text class="planned-detail" x="360" y="726" text-anchor="middle">adapters cross-harness ficam depois da aceitação</text>
+          </g>
+
+          <line x1="40" y1="752" x2="680" y2="752" stroke="rgba(45,49,66,0.16)" stroke-width="1"/>
+          <text class="planned-legend" x="40" y="768">LEGENDA: TRACEJADO = PLANEJADO · CANÔNICO = FONTE HUMANA · ÍNDICE = DERIVADO</text>
+          <text class="planned-legend" x="40" y="780">A CAMADA SÓ DEIXA DE SER PLANEJADA QUANDO A ACEITAÇÃO PUBLICADA EXISTIR.</text>
+        </svg>
+        <figcaption><strong>Planejado.</strong> O marcador é pequeno, o watcher extrai fora da sessão e a frente recebe uma Brief limitada. A ausência de aceitação mantém todos os nós nesta camada como futuro.</figcaption>
+      </figure>
+      <p class="boundary-note"><strong>Fronteira de maturidade:</strong> o ciclo atual tem fontes Firstmate de manutenção. Cut, Candidate, Write Decision, proveniência, índice e Brief aparecem aqui como contratos planejados, não como capacidades disponíveis neste repositório.</p>
+    </section>
+  </main>
+</body>
+</html>

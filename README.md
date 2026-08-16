@@ -13,6 +13,7 @@ deploy. Leia [SECURITY.md](SECURITY.md) antes de reutilizar qualquer padrão.
 | Situação | O que a prova mostra | Estado da evidência | Comece aqui |
 | --- | --- | --- | --- |
 | Uma janela de staging não pode ficar ativa por esquecimento nem deixar o domínio sem resposta quando a aplicação para. | Manifestos imutáveis, preflight sem mutação, pausa explícita, TTL, recuperação e testes locais. | **Contrato sintético** e **contrato loopback**. Não afirma Docker, DNS, registry ou credenciais reais. | [Janela de staging limitada e recuperação explícita](proofs/bounded-staging-recovery/) |
+| Muitas tarefas paralelas não podem perder dono, evidência e aprendizado quando o chat é o único estado. | Frentes persistentes, folhas Ready, worktrees isolados, supervisão durável, entrega protegida e captura terminal. | **Decisão** e **contrato sintético**. Compounding off-session é **arquitetura planejada**. | [Orquestração Firstmate e Compounding](proofs/firstmate-orchestration/) |
 
 ## Como ler uma prova
 
@@ -25,6 +26,7 @@ observação de produção.
 | **Contrato sintético** | Uma validação local com mocks, fixtures ou dados sintéticos. |
 | **Contrato loopback** | Uma validação HTTP local, sem infraestrutura externa. |
 | **Observação datada** | Um recibo de ambiente real com escopo e data. Não prova o estado atual. |
+| **Arquitetura planejada** | Um contrato futuro sem aceitação publicada de implementação. |
 | **Não afirmado** | Um limite que a prova não cobre. |
 
 Abra o caso primeiro. Depois siga os links para código, testes, ADRs e mapas de
