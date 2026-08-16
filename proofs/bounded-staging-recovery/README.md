@@ -37,9 +37,9 @@ vida para tornar esses estados visíveis.
 ![Máquina de estados do staging: pausa, validação, estado ativo, expiração e recuperação do estado anterior.](visuals/lifecycle.svg)
 
 **Decisão:** a figura reduz a decisão a quatro estados. Ela não substitui o
-texto: uma validação que falha não deve tirar staging de `paused`; expiração
-retorna a esse estado; e recuperação restaura o estado anterior, junto com seu
-TTL quando ele ainda é válido.
+texto: uma validação que falha preserva o estado anterior; expiração retorna à
+pausa; e recuperação restaura o estado anterior, junto com seu TTL quando ele
+ainda é válido.
 
 **Fonte pública:** [contrato de ciclo de vida](../../docker-swarm/staging/scripts/lib.sh)
 · [start](../../docker-swarm/staging/scripts/start.sh)

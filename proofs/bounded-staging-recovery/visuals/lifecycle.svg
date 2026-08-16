@@ -61,7 +61,7 @@
   <text x="324" y="228" text-anchor="middle" class="tag">GATE</text>
   <text x="368" y="260" text-anchor="middle" class="name">Validar rota</text>
   <text x="368" y="284" text-anchor="middle" class="detail">manifesto + preflight</text>
-  <text x="368" y="336" text-anchor="middle" class="note">Falha mantém Pausado.</text>
+  <text x="368" y="336" text-anchor="middle" class="note">Falha preserva estado.</text>
 
   <!-- Active state -->
   <rect x="528" y="200" width="176" height="96" rx="8" fill="#fff7d6" stroke="#8a6500" stroke-width="2"/>
@@ -79,6 +79,6 @@
 
   <line x1="48" y1="568" x2="752" y2="568" stroke="#9ca3af" stroke-width="1"/>
   <text x="48" y="592" class="label">NOTA DE LEITURA</text>
-  <text x="200" y="592" class="note">Validação não cria estado.</text>
+  <text x="200" y="592" class="note">Validação preserva estado.</text>
   <text x="200" y="616" class="note">A recuperação preserva o estado anterior quando possível.</text>
 </svg>
