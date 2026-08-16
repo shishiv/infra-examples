@@ -19,7 +19,7 @@
   </defs>
 
   <!-- Palette derives from the public paused-page artifact: #f5f5f5, #333 and #ffd43b. -->
-  <rect width="800" height="608" fill="#f5f5f5"/>
+  <rect width="800" height="640" fill="#f5f5f5"/>
 
   <!-- Connectors are behind state boxes. -->
   <path d="M208 248 H280" fill="none" stroke="#4b5563" stroke-width="2" marker-end="url(#bounded-staging-arrow)"/>
