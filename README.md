@@ -4,8 +4,7 @@ Provas operacionais sanitizadas para uma pergunta prática: como um sistema pass
 de diagnóstico, decisão, validação, implantação e operação sem esconder o que
 não foi provado.
 
-O conteúdo deriva de infraestrutura real, mas esta superfície pública contém
-somente código e contratos revisados. Ela não contém histórico de origem,
+**Não afirmado:** esta superfície pública não contém histórico de origem,
 credenciais, hosts internos, estado de runtime, dados de cliente ou receita de
 deploy. Leia [SECURITY.md](SECURITY.md) antes de reutilizar qualquer padrão.
 
@@ -38,21 +37,21 @@ Os módulos abaixo continuam organizados por ferramenta. Eles são fontes de
 manutenção e de evidência para as provas, não uma promessa de configuração
 pronta para produção.
 
-| Módulo | O que demonstra | Fonte de manutenção |
-| --- | --- | --- |
-| `docker-swarm/` | Stack sintética com manifestos imutáveis, preflight read-only, pausa, TTL e rollback. | [README](docker-swarm/README.md) · [callgraphs](docker-swarm/docs/callgraphs.md) |
-| `github-actions/` | CI de shell/YAML e publicação isolada de uma imagem com tag e digest imutáveis. | [README](github-actions/README.md) · [callgraph](github-actions/callgraph.md) |
-| `nextjs/` | Build standalone, runtime sem root, configuração pública/server-only e cache seguro. | [README](nextjs/README.md) · [callgraph](nextjs/callgraph.md) |
-| `drizzle/` | Migração PostgreSQL, snapshot, journal, relações e tipos inferidos. | [README](drizzle/README.md) · [callgraph](drizzle/callgraph.md) |
-| `playwright/` | E2E por contrato: rotas públicas, fronteira de auth e visual determinístico. | [README](playwright/README.md) · [callgraph](playwright/callgraph.md) |
-| `bash-ops/` | Forced-command SSH, sandbox loopback e bootstrap histórico de runner. | [README](bash-ops/README.md) · [callgraph](bash-ops/callgraph.md) |
+| Módulo | O que demonstra | Estado da evidência | Fonte de manutenção |
+| --- | --- | --- | --- |
+| `docker-swarm/` | Stack sintética com manifestos imutáveis, preflight read-only, pausa, TTL e rollback. | **Decisão** e **contratos sintéticos**. | [README](docker-swarm/README.md) · [callgraphs](docker-swarm/docs/callgraphs.md) |
+| `github-actions/` | CI de shell/YAML e publicação isolada de uma imagem com tag e digest imutáveis. | **Decisão**. | [README](github-actions/README.md) · [callgraph](github-actions/callgraph.md) |
+| `nextjs/` | Build standalone, runtime sem root, configuração pública/server-only e cache seguro. | **Decisão**. | [README](nextjs/README.md) · [callgraph](nextjs/callgraph.md) |
+| `drizzle/` | Migração PostgreSQL, snapshot, journal, relações e tipos inferidos. | **Decisão**. | [README](drizzle/README.md) · [callgraph](drizzle/callgraph.md) |
+| `playwright/` | E2E por contrato: rotas públicas, fronteira de auth e visual determinístico. | **Contrato sintético**. | [README](playwright/README.md) · [callgraph](playwright/callgraph.md) |
+| `bash-ops/` | Forced-command SSH, sandbox loopback e bootstrap histórico de runner. | **Decisão** e **contrato loopback**. | [README](bash-ops/README.md) · [callgraph](bash-ops/callgraph.md) |
 
 ## Origem e limites
 
-O conteúdo foi reduzido para uma superfície pública. Os valores restantes são
-placeholders, `localhost` ou domínios reservados para documentação. Um exemplo
-sanitizado explica uma decisão, mas não é uma configuração pronta para
-produção.
+**Não afirmado:** o conteúdo foi reduzido para uma superfície pública. Os
+valores restantes são placeholders, `localhost` ou domínios reservados para
+documentação. Um exemplo sanitizado explica uma decisão, mas não é uma
+configuração pronta para produção.
 
 Substitua contratos externos, revisão de segurança, legal copy e observabilidade
 antes de qualquer uso real. Se um arquivo ou valor não puder ser explicado sem

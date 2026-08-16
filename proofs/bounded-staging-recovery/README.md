@@ -15,9 +15,10 @@ acessível, e uma falha tenta restaurar o ciclo anterior.
 ## A situação
 
 Uma janela temporária pode continuar ativa além do necessário. Ela também pode
-parar a aplicação e deixar o domínio sem uma resposta clara. O módulo usa uma
-página pausada, um TTL e comandos de ciclo de vida para tornar esses estados
-visíveis.
+parar a aplicação e deixar o domínio sem uma resposta clara.
+
+**Decisão:** o módulo usa uma página pausada, um TTL e comandos de ciclo de
+vida para tornar esses estados visíveis.
 
 **Fonte pública:** [README do Docker Swarm](../../docker-swarm/README.md#porquês)
 · [arquitetura](../../docker-swarm/docs/architecture.md)
@@ -35,10 +36,10 @@ visíveis.
 
 ![Máquina de estados do staging: pausa, validação, estado ativo, expiração e recuperação do estado anterior.](visuals/lifecycle.svg)
 
-A figura reduz a decisão a quatro estados. Ela não substitui o texto: uma
-validação que falha não deve tirar staging de `Paused`; expiração retorna a esse
-estado; e recuperação restaura o estado anterior, junto com seu TTL quando ele
-ainda é válido.
+**Decisão:** a figura reduz a decisão a quatro estados. Ela não substitui o
+texto: uma validação que falha não deve tirar staging de `Paused`; expiração
+retorna a esse estado; e recuperação restaura o estado anterior, junto com seu
+TTL quando ele ainda é válido.
 
 **Fonte pública:** [contrato de ciclo de vida](../../docker-swarm/staging/scripts/lib.sh)
 · [start](../../docker-swarm/staging/scripts/start.sh)
