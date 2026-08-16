@@ -19,6 +19,14 @@ nomes de exemplo.
 | [`docs/`](docs/) | arquitetura, decisões e callgraph Mermaid |
 | [`.env.example`](.env.example) | configuração genérica sem segredo |
 
+## Prova pública relacionada
+
+A leitura por problema começa em [Janela de staging limitada e recuperação
+explícita](../proofs/bounded-staging-recovery/). A prova conecta restrição,
+decisão, validação, recuperação e limite a estes arquivos sem transformar este
+módulo em receita de produção. Este README continua dono da implementação e dos
+comandos locais.
+
 ## Verificação local
 
 A suíte não precisa de Docker, rede, DNS ou credenciais:
