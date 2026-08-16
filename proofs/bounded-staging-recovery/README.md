@@ -37,7 +37,7 @@ vida para tornar esses estados visíveis.
 ![Máquina de estados do staging: pausa, validação, estado ativo, expiração e recuperação do estado anterior.](visuals/lifecycle.svg)
 
 **Decisão:** a figura reduz a decisão a quatro estados. Ela não substitui o
-texto: uma validação que falha não deve tirar staging de `Paused`; expiração
+texto: uma validação que falha não deve tirar staging de `paused`; expiração
 retorna a esse estado; e recuperação restaura o estado anterior, junto com seu
 TTL quando ele ainda é válido.
 
